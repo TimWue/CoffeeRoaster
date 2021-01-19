@@ -129,7 +129,7 @@ export class GraphComponent implements OnInit {
 
   updateData(){
     this.barChartData = [
-      { data: this.measures, label: "Röstung", type: "line", borderWidth : 0.5,  pointBackgroundColor: "white" },
+      { data: this.measures, label: "Röstung", type: "line", borderWidth : 0.5, pointRadius:0 },
       {data: [{x:-10,y:200}, {x:-10,y:150},{x:1000,y:150},{x:1000,y:200},{x:-10,y:200}], type:"line", lineTension: 0},
       {data: [{x:-10,y:350}, {x:-10,y:200},{x:1000,y:200},{x:1000,y:350},{x:-10,y:350}], type:"line", lineTension: 0},
       {data: [{x:-10,y:500}, {x:-10,y:350},{x:1000,y:350},{x:1000,y:500},{x:-10,y:500}], type:"line", lineTension: 0},
