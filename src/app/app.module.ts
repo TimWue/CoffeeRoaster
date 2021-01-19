@@ -23,6 +23,7 @@ import { ArchivItemComponent } from './archiv/archiv-item/archiv-item.component'
 import { ArchivDetailComponent } from './archiv/archiv-detail/archiv-detail.component';
 import { SimpleGraphComponent } from './archiv/archiv-detail/simple-graph/simple-graph.component';
 import { RatingItemComponent } from './archiv/archiv-detail/rating-item/rating-item.component';
+import { StartComponent } from './start/start.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -39,6 +40,7 @@ import { RatingItemComponent } from './archiv/archiv-detail/rating-item/rating-i
     ArchivDetailComponent,
     SimpleGraphComponent,
     RatingItemComponent,
+    StartComponent,
     
   ],
   imports: [
