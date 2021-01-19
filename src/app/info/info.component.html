@@ -5,25 +5,75 @@
         <button (click)="resetTimer()" class="btn btn-dark buttonOwn"><fa-icon [icon]="faReset" class="fa-lg"></fa-icon></button>
 
     </div>
-    <div class="timeDisplay">
+
+    <!-- <div class="timeDisplay"> -->
+        <div class="boxH">
+        <div class="boxH-item iconDiv">
+            <fa-icon [icon]="faTime" class="fa-lg"></fa-icon>
+        </div>
+        <div class="boxH-item dataDiv">
+            <b>{{time}}</b>
+        </div>
+    </div>
+    <!-- </div> -->
+    <!-- <div class="timeDisplay">
             <div class="iconDiv">
                 <fa-icon [icon]="faTime" class="fa-lg"></fa-icon>
             </div>
-            <div class="dynText" style=" width:70%;" *ngIf="time">
+            <div class="dynText" *ngIf="time">
                 <b>{{time}}</b>
             </div>
+    </div> -->
+    <div class="boxH">
+        <div class="boxH-item iconDiv">
+            <fa-icon [icon]="faTemp" class="fa-lg"></fa-icon>
+        </div>
+        <div class="boxH-item dataDiv">
+            <b>{{temperature}} [°C]</b>
+        </div>
     </div>
 
-    <div class="timeDisplay">
+    <!-- <div class="timeDisplay">
         <div class="iconDiv">
             <fa-icon [icon]="faTemp" class="fa-lg"></fa-icon>
         </div>
-        <div class="dynText" style=" width:70%;" *ngIf="temperature">
+        <div class="dynText" *ngIf="temperature">
             <b> {{temperature}} [°C] </b>
         </div>            
+    </div> -->
+
+    <div class="boxH">
+        <div class="boxH-combine">
+        <div class="boxH-item iconDiv">
+            <fa-icon [icon]="faChart" class="fa-lg"></fa-icon>
+        </div>
+        <div class="boxH-item dataDiv">
+            <b>{{akGradient}} [°C/s] </b>
+        </div>
+        </div>
+        <div class="boxH-combine">
+        <div class="boxH-item iconDiv">
+            Max.
+        </div>
+        <div class="boxH-item dataDiv">
+            <b>{{maxGradientString}} [°C/s]</b>
+        </div>
+        </div>
+
+        <div class="boxH-combine">
+
+        <div class="boxH-item iconDiv">
+            {{Omega}}  
+        </div>
+        <div class="boxH-item dataDiv">
+            <b>{{midGradient}} [°C/s]</b>
+        </div>
     </div>
 
-    <div style="display: flex; 
+
+    </div>
+
+    <!-- <div style="display: flex; 
     flex-direction: column; 
     width:90%; 
     border: 3px solid white;
@@ -33,7 +83,7 @@
             <div class="iconDiv">
                 <fa-icon [icon]="faChart" class="fa-lg"></fa-icon>
             </div>
-            <div class="dynText" style=" width:70%;" *ngIf="akGradient">
+            <div class="dynText" *ngIf="akGradient">
                 <b> {{akGradient}} [°C/s] </b>
             </div>
         </div>
@@ -54,7 +104,7 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->
     <!-- <div class="timeDisplay">
         <p class="dynText">Mean Gradient: <br>
             <b>{{midGradient}} [°C/s] </b>
