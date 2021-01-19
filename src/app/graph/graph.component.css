@@ -1,0 +1,6 @@
+.graph{
+    display: block;
+    width: auto; 
+    height: 100%;
+    background-color: var(--secondary-color);
+}

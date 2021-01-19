@@ -1,0 +1,48 @@
+
+.sideBarOwn{
+    border-radius: 5px;
+    width: 140px;
+    height: 200px;
+    text-align: center;
+    position: relative;
+    z-index: 1;    
+}
+
+.buttonOwn{
+    /* position: relative; */
+    width: 100%;
+    height: 90%;
+    /* z-index: 1; */
+    text-align: center;
+    margin: 5%;
+}
+.collapsing{
+    transition-duration: 0s;
+    z-index: 1; 
+    overflow: visible;
+}
+
+
+.dropdownOwn{
+    border-radius: 5px;
+    width: 180px;
+    text-align: center;
+    /* position: absolute; */
+    /* z-index: 1; */
+    position: relative;
+
+   
+}
+:host{
+    /* z-index: 1;
+    overflow: visible; */
+    /* position: absolute; */
+    /* z-index: 1; */
+}   
+/* :host {
+    position: absolute;
+    top: 200px;
+    left: 0;
+    width: 600px;
+    height: 400px; 
+}   */

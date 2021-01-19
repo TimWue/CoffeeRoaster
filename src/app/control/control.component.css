@@ -1,0 +1,25 @@
+.box{
+    display: flex;
+    /* justify-content: flex-end; */
+    background-color: var(--primary-color);
+  /* height: 200px; */
+
+}
+
+.push {
+    margin-left: auto;
+}
+
+.buttonOwn{
+    margin: 5px;
+}
+
+.brand{
+    display: inherit;
+    margin-left: 2%;
+    font-size: 3vw;
+    font-weight: bold;
+    align-items: center;
+    color: white;
+    font-family:monospace;
+}
