@@ -13,6 +13,14 @@
 
 }
 
+.boxV{
+    display:flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 10%;
+}
+
 .boxH{
     display:flex;
     flex-direction: row;
