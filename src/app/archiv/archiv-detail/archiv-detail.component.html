@@ -1,6 +1,11 @@
 <div class="archivDetail">
     <h3>Details:</h3>
     <hr>
+    <div style="display: flex; flex-direction: column; justify-content: flex-start;margin-bottom: 5%;">
+        <h4>{{archivItem.name}}</h4>
+        <div class=""> {{archivItem.dateTime.toLocaleString()}} </div>
+    </div>
+
     <div class="boxV">
     <div class="boxItem" style="width:80%; height: 30%; ">
         <!-- display: flex;
@@ -8,26 +13,23 @@
         <app-simple-graph [archivItem] = "archivItem"></app-simple-graph>
     </div>
 
-    <div class="boxItem" style="display: flex; flex-direction: row; justify-content: center;width: 60%">
-        <div *ngFor="let i of ratingBool">
+    <div class="boxItem" 
+    style="display: flex; flex-direction: row; justify-content: center;width: 60%;">
+        <div *ngFor="let i of ratingBool" class="rating">
            
                 <app-rating-item [isRated]="i"></app-rating-item>
            
         </div>
     </div>
 
-    <div class="boxItem">
-        <table>
-            <tr>
-            <td>Datum:</td>
-            <td>{{archivItem.dateTime.toLocaleString()}}</td>
-            </tr>
-            <tr>
-            <td>Bohne:</td>
-            <td>{{archivItem.bean}}</td>
-            </tr>
-      </table>
-    </div>
+    <!-- <div class="boxItem"> -->
+        <div class="boxH">
+            <div class="boxHitem"><b> Bohne: </b></div>
+            <div class="boxHitem">{{archivItem.bean}}</div>
+        </div>
+                        
+    <!-- </div> -->
+    <div class=""><b>Kommentare:</b></div>
     <div class="boxItem">
         {{archivItem.comments}}
     </div>

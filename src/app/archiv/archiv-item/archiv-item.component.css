@@ -1,11 +1,11 @@
 .archivItem{
     background-color: var(--secondary-color);
     border-radius: 5px;
-    padding: 5%;
+    padding: 1%;
     display: flex;
     flex-direction: row;
     width: 90%;
-    height: 5%;
+    /* height: 5%; */
     color: white;
     font-size: 4vw;
     justify-content: center;
