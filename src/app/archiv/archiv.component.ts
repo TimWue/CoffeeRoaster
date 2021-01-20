@@ -9,8 +9,10 @@ import { Measurement } from '../models/measurement';
 })
 export class ArchivComponent implements OnInit {
 
-  archiv : ArchivItem[] =[new ArchivItem("Testname", [new Measurement(0,40),new Measurement(1,45)],
-  3,"no comments", "testBean", new Date())]
+  archiv : ArchivItem[] =[new ArchivItem("Röstung Nr. 1", [new Measurement(0,40),new Measurement(1,45)],
+  3,"Leider beim Rösten eingeschlafen. Nächstes mal wirds besser", "Rote Bohne", new Date()),
+  new ArchivItem("Röstung Nr. 2", [new Measurement(0,40),,new Measurement(0.5,70),new Measurement(1,45)],
+  1,"Da ist etwas ordentlich schief gelaufen!", "Gartenbohne", new Date())]
 
   akArchivItem : ArchivItem = this.archiv[0]
   
@@ -18,5 +20,7 @@ export class ArchivComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
+ setDetail(index : number){
+   this.akArchivItem = this.archiv[index];
+ }
 }

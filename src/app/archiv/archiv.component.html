@@ -2,8 +2,11 @@
     <h2>Archiv</h2>
     <hr>
 <div class="boxV">
-    <div style="width:70%">
-        <app-archiv-item [archivItem]="akArchivItem"></app-archiv-item>
+    <div style="width:70%;">
+    <div  style="display:flex;flex-direction: column;" 
+    *ngFor="let item of archiv; let i = index;">
+        <app-archiv-item [archivItem]="item" (showEvent)="setDetail(i)"></app-archiv-item>
+    </div>
     </div>
     <div style="width:30%">
         <app-archiv-detail [archivItem]="akArchivItem"></app-archiv-detail>
