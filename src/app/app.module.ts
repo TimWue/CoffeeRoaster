@@ -6,11 +6,9 @@ import {MatRadioModule} from '@angular/material/radio';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { SideNavComponent } from './side-nav/side-nav.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { InfoComponent } from './info/info.component';
-import { ControlComponent } from './control/control.component';
 import { ParameterComponent } from './parameter/parameter.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { GraphComponent } from './graph/graph.component';
@@ -27,9 +25,7 @@ import { StartComponent } from './start/start.component';
 @NgModule({
   declarations: [
     AppComponent,
-    SideNavComponent,
     InfoComponent,
-    ControlComponent,
     ParameterComponent,
     GraphComponent,
     RoastComponent,

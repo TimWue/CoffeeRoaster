@@ -5,4 +5,17 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 :root{
     --primary-color: #224;
     --secondary-color: #336;
+
+    --bg-color: #dfd3c3;
+    --item-bg-color: #cbaf87;
+    --brand-color: #333;
+    /* --brand-color: #493323; */
+    --run-color: #9dad7f;
+    --stop-color:#bb5a5a;
+    
+    --text-color: black;
+    --border-color: black;
+
+    --header-color: #cbaf87;
+    --icon-bg-color:  #333;
 }

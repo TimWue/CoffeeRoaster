@@ -1,7 +1,10 @@
 .box{
     display: flex;
     /* justify-content: flex-end; */
-    background-color: var(--secondary-color);
+    /* background-color: var(--secondary-color); */
+    background-color: var(--header-color);
+    border-bottom: 1px solid var(--border-color);
+
   /* height: 200px; */
 
 }
@@ -20,7 +23,7 @@
     font-size: 3vmax;
     font-weight: bold;
     align-items: center;
-    color: white;
+    color: var(--brand-color);
     font-family:monospace;
 }
 
@@ -39,5 +42,7 @@
     margin-bottom: auto;
     margin-right: 10px;
     color : white;
-    background-color: var(--primary-color);
+    /* background-color: var(--primary-color); */
+    background-color: var(--icon-bg-color);
+
 }

@@ -1,16 +1,19 @@
 .archivItem{
-    background-color: var(--secondary-color);
+    /* background-color: var(--secondary-color); */
+    background-color: var(--item-bg-color);
+
     border-radius: 5px;
     padding: 1%;
     display: flex;
     flex-direction: row;
     width: 90%;
     /* height: 5%; */
-    color: white;
-    font-size: 4vw;
+    color: var(--text-color);
+    font-size: 3vw;
     justify-content: center;
     align-items: center;
     margin: 5px auto 5px auto;
+    border: 1px solid var(--border-color);
 
 }
 
@@ -26,4 +29,5 @@
 .buttonOwn{
     margin: 5px;
     padding: 5px;
+    background-color: var(--icon-bg-color);
 }

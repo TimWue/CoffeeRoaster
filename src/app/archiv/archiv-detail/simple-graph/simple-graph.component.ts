@@ -1,9 +1,11 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { ChartDataSets } from 'chart.js';
 import { Color } from 'ng2-charts';
+import { utils } from 'protractor';
 import { ArchivItem } from 'src/app/models/archivItem';
 import { Datapoint } from 'src/app/models/datapoint';
 import { Measurement } from 'src/app/models/measurement';
+import { Util} from 'src/utility/util'
 
 @Component({
   selector: 'app-simple-graph',
@@ -35,24 +37,16 @@ export class SimpleGraphComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     console.log(this.archivItem)
     this.ChartData = [
-      { data: this.measurement2data(this.archivItem.data), label: this.archivItem.name, type: "line", borderWidth : 0.5,  pointBackgroundColor: "white" },
+      { data: Util.measurement2data(this.archivItem.data), label: this.archivItem.name, type: "line", borderWidth : 0.5,  pointBackgroundColor: "white" },
     ];
   }
 
   ngOnInit(): void {
+    Util.test();
+    
     console.log(this.archivItem)
     this.ChartData = [
-      { data: this.measurement2data(this.archivItem.data), label: this.archivItem.name, type: "line", borderWidth : 0.5,  pointBackgroundColor: "white" },
+      { data: Util.measurement2data(this.archivItem.data), label: this.archivItem.name, type: "line", borderWidth : 0.5,  pointBackgroundColor: "white" },
     ];
   }
-
-  measurement2data(measures : Measurement[]){
-    let datapoints : Datapoint[] = [];
-    measures.forEach(element => {
-      datapoints.push(new Datapoint(element.time,element.temperature))
-    });
-    return datapoints;
-
-  }
-
 }
