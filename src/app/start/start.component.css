@@ -8,7 +8,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    color: white;
+    color: var(--text-color);
 }
 .buttonDiv{
     display: flex;
@@ -38,8 +38,8 @@
     margin-bottom: auto;
     margin-right: 10px;
     marg */
-    color : white;
-    background-color: var(--secondary-color);
+    color : var(--text-color);
+    background-color: var(--item-bg-color);
     display:inherit;
     flex-direction: column;
     align-items: center;
