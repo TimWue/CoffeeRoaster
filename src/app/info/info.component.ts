@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { TemperatureService } from '../services/temperature.service';
 import { TimeService } from '../services/time.service';
-import { faArchive, faBars, faChartLine, faCoffee, faCogs, faHourglassHalf, faPlay, faStop, faThermometerThreeQuarters, faUndo } from '@fortawesome/free-solid-svg-icons';
+import { faArchive, faArrowLeft, faBackward, faBars, faChartLine, faCoffee, faCogs, faHourglassHalf, faPlay, faStop, faThermometerThreeQuarters, faUndo } from '@fortawesome/free-solid-svg-icons';
+import { EventService } from '../services/event.service';
 
 @Component({
   selector: 'app-info',
@@ -9,6 +10,7 @@ import { faArchive, faBars, faChartLine, faCoffee, faCogs, faHourglassHalf, faPl
   styleUrls: ['./info.component.css']
 })
 export class InfoComponent implements OnInit {
+//Icons
 faTemp = faThermometerThreeQuarters;
 faTime = faHourglassHalf
 faChart = faChartLine
@@ -16,7 +18,14 @@ faReset = faUndo;
 faPlay = faPlay;
 faStop = faStop;
 Omega = '\u00D8';
+faBack = faArrowLeft;
 
+// Mark Phases
+index = 0;
+buttonLabels = ["Markieren", "Phase 1", "Phase 2", "Phase 3","Ende"];
+buttonLabel = this.buttonLabels[this.index];
+
+// Placeholders
   time: string = "00:00:00"
   temperature : string = "NA"
   akGradient : string = "NA"
@@ -26,7 +35,9 @@ Omega = '\u00D8';
   maxGradientString : string = "NA";
 
   
-  constructor(private timeService : TimeService, private tempService : TemperatureService) {}
+  constructor(private timeService : TimeService, 
+    private tempService : TemperatureService,
+    private eventService : EventService) {}
 
   ngOnInit(): void {
     this.tempService.akGradient.subscribe(value => { 
@@ -68,4 +79,19 @@ Omega = '\u00D8';
       this.tempService.resetTemperature();
     }
 
+    // Mark
+    markEvent(){
+      if (this.index > 0){
+        this.eventService.emitPhaseAdd();
+      }
+      this.index ++
+      this.buttonLabel = this.buttonLabels[this.index];
+      
+    }
+  
+    reverseMarkEvent(){
+      this.index --
+      this.buttonLabel = this.buttonLabels[this.index];
+      this.eventService.emitPhaseDelete();
+    }
 }

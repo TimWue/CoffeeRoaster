@@ -41,7 +41,7 @@
     margin-top: auto;
     margin-bottom: auto;
     margin-right: 10px;
-    color : white;
+    color : var(--icon-color);
     /* background-color: var(--primary-color); */
     background-color: var(--icon-bg-color);
 
