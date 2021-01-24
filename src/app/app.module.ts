@@ -22,6 +22,8 @@ import { ArchivDetailComponent } from './archiv/archiv-detail/archiv-detail.comp
 import { SimpleGraphComponent } from './archiv/archiv-detail/simple-graph/simple-graph.component';
 import { RatingItemComponent } from './archiv/archiv-detail/rating-item/rating-item.component';
 import { StartComponent } from './start/start.component';
+import { RouteReuseStrategy } from '@angular/router';
+import { CustomReuseStrategy } from './customReUseStrategy';
 @NgModule({
   declarations: [
     AppComponent,
@@ -54,7 +56,9 @@ import { StartComponent } from './start/start.component';
       echarts: () => import('echarts')
     })
   ],
-  providers: [],
+  providers: [
+    {provide: RouteReuseStrategy, useClass: CustomReuseStrategy}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

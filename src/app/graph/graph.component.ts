@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { ChartOptions, ChartType, ChartDataSets } from 'chart.js';
 import { Color } from 'ng2-charts';
+import { Datapoint } from '../models/datapoint';
 import { EventService } from '../services/event.service';
 import { GraphService } from '../services/graph.service';
 import { TemperatureService } from '../services/temperature.service';
@@ -26,10 +27,11 @@ export class GraphComponent implements OnInit {
   public lineChartColors: Color[] = [
     {borderColor: "black"},{backgroundColor: "rgba(207, 218, 200,0.5)"},
     {backgroundColor: "rgba(150, 187, 124, 0.5)"},{backgroundColor: "rgba(124, 148, 115,0.5)"},
-    {borderColor: "yellow"}];
+    {borderColor: "yellow"}, {borderColor: "black"}];
 
   public barChartData: ChartDataSets[];
   private tempData : ChartDataSets[];
+  public dataArray  = [];
   
   constructor(private timeService : TimeService, 
     private tempService : TemperatureService,
@@ -37,29 +39,30 @@ export class GraphComponent implements OnInit {
     private graphService : GraphService) {
     }
 
+   
+
   ngOnInit() {
 
-    this.tempData= [
-      { data: this.measures, label: "Röstung", type: "line", borderWidth : 0.5, pointRadius:0 },
-      {data: [{x:-10,y:200}, {x:-10,y:150},{x:1000,y:150},{x:1000,y:200},{x:-10,y:200}], type:"line", lineTension: 0},
-      {data: [{x:-10,y:350}, {x:-10,y:200},{x:1000,y:200},{x:1000,y:350},{x:-10,y:350}], type:"line", lineTension: 0},
-      {data: [{x:-10,y:500}, {x:-10,y:350},{x:1000,y:350},{x:1000,y:500},{x:-10,y:500}], type:"line", lineTension: 0},
-      {data: this.phases, pointRadius: 10, pointBackgroundColor:"yellow"}
-    ];
+    
     this.updateOptions();
     this.updateData();
-    this.graphService.graphdata.subscribe( data => {
-      console.log("Data added!");
+    this.graphService.graphdata.subscribe( (data : Datapoint[]) => {
+      // console.log("Data added!");
+      // let dataArray = [];
+      data.forEach((element : Datapoint) => {
+        this.dataArray.push({x: element.x, y: element.y})
+      });
 
-      let dataItem : ChartDataSets = { data: data, 
-        label: "ArchivItem", 
-        type: "line", 
-        borderWidth : 0.5,  
-        pointBackgroundColor: "grey" }
-      this.tempData.push(dataItem);
+      // let dataItem ={ data: dataArray, 
+      //   label: "ArchivItem", 
+      //   type: "line", 
+      //   borderWidth : 0.5}
+      // this.tempData.push(dataItem);
+      this.updateOptions();
       this.updateData();
-      console.log(this.barChartData);
-      console.log("Data added!");
+
+      // console.log(this.barChartData);
+      // console.log("Data added!");
     })
     this.tempService.statusUpdate.subscribe(status => {
       if (status === "rest"){
@@ -117,6 +120,17 @@ export class GraphComponent implements OnInit {
   }
 
   updateData(){
+    this.barChartData = [
+      { data: this.measures, label: "Röstung", type: "line", borderWidth : 0.5, pointRadius:0 },
+      {data: [{x:-10,y:200}, {x:-10,y:150},{x:1000,y:150},{x:1000,y:200},{x:-10,y:200}], type:"line", lineTension: 0},
+      {data: [{x:-10,y:350}, {x:-10,y:200},{x:1000,y:200},{x:1000,y:350},{x:-10,y:350}], type:"line", lineTension: 0},
+      {data: [{x:-10,y:500}, {x:-10,y:350},{x:1000,y:350},{x:1000,y:500},{x:-10,y:500}], type:"line", lineTension: 0},
+      {data: this.phases, pointRadius: 10, pointBackgroundColor:"yellow"},
+      { data: this.dataArray, 
+        label: "ArchivItem", 
+        type: "line", 
+        borderWidth : 0.5, pointRadius: 0}
+    ];
     // this.barChartData = [
     //   { data: this.measures, label: "Röstung", type: "line", borderWidth : 0.5, pointRadius:0 },
     //   {data: [{x:-10,y:200}, {x:-10,y:150},{x:1000,y:150},{x:1000,y:200},{x:-10,y:200}], type:"line", lineTension: 0},
@@ -124,7 +138,7 @@ export class GraphComponent implements OnInit {
     //   {data: [{x:-10,y:500}, {x:-10,y:350},{x:1000,y:350},{x:1000,y:500},{x:-10,y:500}], type:"line", lineTension: 0},
     //   {data: this.phases, pointRadius: 10, pointBackgroundColor:"yellow"}
     // ];
-    this.barChartData = this.tempData;
+    // this.barChartData = this.tempData;
   }
 
   setPhase(){
