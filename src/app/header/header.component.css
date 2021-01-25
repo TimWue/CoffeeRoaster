@@ -1,5 +1,6 @@
 .box{
     display: flex;
+    /* flex-grow: 2; */
     /* justify-content: flex-end; */
     /* background-color: var(--secondary-color); */
     background-color: var(--header-color);
