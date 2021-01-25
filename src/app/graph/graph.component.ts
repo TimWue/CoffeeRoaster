@@ -16,7 +16,7 @@ export class GraphComponent implements OnInit {
 
   phases = [];
   measures = [];
-  maxXTick = 100;
+  maxXTick = 10;
   tickShift = 20; // um so viel wird maxXTick erhöht wenn maxXTick Daten vorhanden sind
   barChartOptions: ChartOptions;
   public barChartLegend = true;
@@ -58,8 +58,8 @@ export class GraphComponent implements OnInit {
       //   type: "line", 
       //   borderWidth : 0.5}
       // this.tempData.push(dataItem);
-      this.updateOptions();
-      this.updateData();
+      // this.updateOptions();
+      // this.updateData();
 
       // console.log(this.barChartData);
       // console.log("Data added!");
@@ -76,6 +76,7 @@ export class GraphComponent implements OnInit {
       console.log(value)
       let time = (value.time)
       this.measures.push({x : time, y: value.temperature})
+
       if (time > this.maxXTick){
         this.maxXTick += this.tickShift;
         // console.log(this.maxXTick)
@@ -145,13 +146,13 @@ export class GraphComponent implements OnInit {
     this.phases.push(this.measures[this.measures.length-1])
     console.log(this.measures[this.measures.length-1])
     console.log(this.phases[this.phases.length-1])
-    this.updateData();
+    // this.updateData();
 
   }
 
   popPhase(){
     this.phases.pop();
-    this.updateData();
+    // this.updateData();
   }
 
 }
