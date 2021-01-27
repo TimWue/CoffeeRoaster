@@ -2,8 +2,8 @@
 
     <div class="boxH" >
         <div class="btn-group">
-            <button class="btn btn-dark btnOwn" style="background-color: var(--icon-bg-color);color: whitesmoke;" (click)="markEvent()" >{{buttonLabel}}</button>
-            <button class="btn btn-dark btnOwn" style="background-color: var(--icon-bg-color);color: var(--icon-color);" (click)="reverseMarkEvent()" [disabled]="true"><fa-icon [icon]="faBack" class="fa-lg"></fa-icon></button>
+            <button class="btn btn-dark btnOwn" style="background-color: var(--icon-bg-color);color: whitesmoke;" (click)="markEvent()" [disabled]="buttonLabel === 'Ende'">{{buttonLabel}}</button>
+            <button class="btn btn-dark btnOwn" style="background-color: var(--icon-bg-color);color: var(--icon-color);" (click)="reverseMarkEvent()" [disabled]="buttonLabel === 'Markieren'"><fa-icon [icon]="faBack" class="fa-lg"></fa-icon></button>
         </div>
     </div>
     

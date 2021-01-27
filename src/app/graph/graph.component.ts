@@ -100,6 +100,7 @@ export class GraphComponent implements OnInit {
         animation: {
           duration : 0
         },
+
         maintainAspectRatio: false,
         responsive: true,
         scales : {
