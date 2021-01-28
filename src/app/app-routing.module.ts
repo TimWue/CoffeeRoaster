@@ -9,7 +9,8 @@ const routes: Routes = [
   {path: 'roasting', component : RoastComponent},
   {path:'archiv', component : ArchivComponent},
   {path:'option', component : OptionComponent},
-  { path: '**', component : StartComponent }
+  { path: '**', component : StartComponent},
+  {path: 'start', component : StartComponent  }
 
 ];
 
