@@ -1,0 +1,9 @@
+textarea{
+    width:80%;
+    height: 200px;
+}
+
+.textInput{
+    border-radius: 5px;
+    background-color: var(--icon-color);
+}
