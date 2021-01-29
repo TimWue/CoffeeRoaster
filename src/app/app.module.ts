@@ -24,6 +24,8 @@ import { RatingItemComponent } from './archiv/archiv-detail/rating-item/rating-i
 import { StartComponent } from './start/start.component';
 import { RouteReuseStrategy } from '@angular/router';
 import { CustomReuseStrategy } from './customReUseStrategy';
+import { ReviewComponent } from './info/review/review.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -39,6 +41,7 @@ import { CustomReuseStrategy } from './customReUseStrategy';
     SimpleGraphComponent,
     RatingItemComponent,
     StartComponent,
+    ReviewComponent,
     
   ],
   imports: [
