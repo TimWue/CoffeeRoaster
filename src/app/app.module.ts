@@ -9,7 +9,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { InfoComponent } from './info/info.component';
-import { ParameterComponent } from './parameter/parameter.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { GraphComponent } from './graph/graph.component';
 import { ChartsModule } from 'ng2-charts';
@@ -30,7 +29,6 @@ import { ReviewComponent } from './info/review/review.component';
   declarations: [
     AppComponent,
     InfoComponent,
-    ParameterComponent,
     GraphComponent,
     RoastComponent,
     ArchivComponent,

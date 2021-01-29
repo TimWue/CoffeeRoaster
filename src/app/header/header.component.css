@@ -1,13 +1,7 @@
 .box{
     display: flex;
-    /* flex-grow: 2; */
-    /* justify-content: flex-end; */
-    /* background-color: var(--secondary-color); */
     background-color: var(--header-color);
     border-bottom: 1px solid var(--border-color);
-
-  /* height: 200px; */
-
 }
 
 .push {
@@ -33,7 +27,6 @@
     flex-direction: row;
     margin-top: 5px;
     margin-bottom: 5px;
-
 }
 
 .brandLink{
@@ -44,12 +37,10 @@
 .icon{
     padding: 5px;
     border-radius: 5px;
-    /* align-items: center; */
     margin-top: auto;
     margin-bottom: auto;
     margin-right: 10px;
     color : var(--icon-color);
-    /* background-color: var(--primary-color); */
     background-color: var(--icon-bg-color);
 
 }

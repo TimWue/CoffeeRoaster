@@ -2,6 +2,21 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.flexRowCC{ /*flex display ordered in row and centered on both axes*/
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.flexColCC{ /*flex display ordered in column and centered on both axes*/
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 :root{
     --primary-color: #224;
     --secondary-color: #336;
