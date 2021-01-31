@@ -45,6 +45,7 @@ export class TemperatureService {
   resetTemperature(){
     clearInterval(this.intId)
     this.statusUpdate.next("reset")
+    this.measures = [];
     // this.subject.next({time : 0, temperature : 0})
 
   }

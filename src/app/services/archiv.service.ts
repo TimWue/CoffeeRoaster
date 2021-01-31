@@ -7,9 +7,9 @@ import { Measurement } from '../models/measurement';
   providedIn: 'root'
 })
 export class ArchivService {
-  public measurementList : ArchivItem[] = [new ArchivItem("Röstung Nr. 1", [new Measurement(0,40),new Measurement(1,45)],
+  public measurementList : ArchivItem[] = [new ArchivItem("Röstung Nr. 1", [new Measurement(0,40),,new Measurement(600,150),new Measurement(1200,345)],
   3,"Leider beim Rösten eingeschlafen. Nächstes mal wirds besser", "Rote Bohne", new Date()),
-  new ArchivItem("Röstung Nr. 2", [new Measurement(0,40),,new Measurement(0.5,70),new Measurement(50,45)],
+  new ArchivItem("Röstung Nr. 2", [new Measurement(0,40),,new Measurement(600,70),new Measurement(1200,45)],
   1,"Da ist etwas ordentlich schief gelaufen!", "Gartenbohne", new Date())];
 
   public currenItem : ArchivItem;

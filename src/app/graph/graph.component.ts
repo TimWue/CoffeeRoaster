@@ -18,21 +18,19 @@ export class GraphComponent implements OnInit {
 
   phases = [];
   measures = [];
-  maxXTick = 10;
+  maxXTick = 20*60;
   tickShift = 20; // um so viel wird maxXTick erhöht wenn maxXTick Daten vorhanden sind
   barChartOptions: ChartOptions;
   public barChartLegend = true;
-  // public lineChartColors: Color[] = [
-  //   {borderColor: "white"},{backgroundColor: "rgba(0,200,0,0.2)"},
-  //   {backgroundColor: "rgba(250,150,0,0.2)"},{backgroundColor: "rgba(255,0,0,0.2)"},
-  //   {borderColor: "yellow"}];
   public lineChartColors: Color[] = [
-    {borderColor: "black"},{backgroundColor: "rgba(207, 218, 200,0.5)"},
-    {backgroundColor: "rgba(150, 187, 124, 0.5)"},{backgroundColor: "rgba(124, 148, 115,0.5)"},
-    {borderColor: "yellow"}, {borderColor: "black"}];
+    {borderColor: "black", backgroundColor:"rgba(0, 0, 0,0)",borderWidth: 3},
+    {backgroundColor: "rgba(207, 218, 200,0.5)",borderColor:"rgba(0, 0, 0,0)"},
+    {backgroundColor: "rgba(150, 187, 124, 0.5)",borderColor:"rgba(0, 0, 0,0)"},
+    {backgroundColor: "rgba(124, 148, 115,0.5)",borderColor:"rgba(0, 0, 0,0)"},
+    {borderColor: "yellow"},
+    {borderColor: "grey", backgroundColor:"rgba(0, 0, 0,0)", borderDash: [5,15], borderWidth: 3}];
 
   public barChartData: ChartDataSets[];
-  private tempData : ChartDataSets[];
   public dataArray  = [];
   
   constructor(private timeService : TimeService, 
@@ -41,16 +39,17 @@ export class GraphComponent implements OnInit {
     private archivService: ArchivService) {
     }
 
-   
-
   ngOnInit() {
-
-    
     this.updateOptions();
     this.updateData();
 
     this.archivService.toShowItemSubject.subscribe(
       (archivItem : ArchivItem) =>{
+        if (this.dataArray.length > 0){
+          this.dataArray = [];
+          this.updateData();
+        }
+        
         let data = Util.measurement2data(archivItem.data)
         data.forEach((element : Datapoint) => {
           this.dataArray.push({x: element.x, y: element.y})
@@ -58,7 +57,7 @@ export class GraphComponent implements OnInit {
       })
      
     this.tempService.statusUpdate.subscribe(status => {
-      if (status === "rest"){
+      if (status === "reset"){
         this.measures = [];
         this.phases = [];
         this.updateData()
@@ -66,7 +65,6 @@ export class GraphComponent implements OnInit {
     })
 
     this.tempService.getTemperature().subscribe((value : {time : number, temperature : number}) => {
-      console.log(value)
       let time = (value.time)
       this.measures.push({x : time, y: value.temperature})
 
@@ -104,7 +102,7 @@ export class GraphComponent implements OnInit {
           }],
           yAxes: [{
             ticks: {
-                max : 500,
+                max : 350,
                 min: 0
               }
           }],
@@ -116,9 +114,9 @@ export class GraphComponent implements OnInit {
   updateData(){
     this.barChartData = [
       { data: this.measures, label: "Röstung", type: "line", borderWidth : 0.5, pointRadius:0 },
-      {data: [{x:-10,y:200}, {x:-10,y:150},{x:1000,y:150},{x:1000,y:200},{x:-10,y:200}], type:"line", lineTension: 0},
-      {data: [{x:-10,y:350}, {x:-10,y:200},{x:1000,y:200},{x:1000,y:350},{x:-10,y:350}], type:"line", lineTension: 0},
-      {data: [{x:-10,y:500}, {x:-10,y:350},{x:1000,y:350},{x:1000,y:500},{x:-10,y:500}], type:"line", lineTension: 0},
+      {data: [{x:-10,y:150}, {x:-10,y:0},{x:100000,y:0},{x:100000,y:150},{x:-10,y:150}],label :"", type:"line", lineTension: 0},
+      {data: [{x:-10,y:300}, {x:-10,y:150},{x:100000,y:150},{x:100000,y:300},{x:-10,y:300}], type:"line", lineTension: 0},
+      {data: [{x:-10,y:350}, {x:-10,y:300},{x:100000,y:300},{x:100000,y:350},{x:-10,y:350}], type:"line", lineTension: 0},
       {data: this.phases, pointRadius: 10, pointBackgroundColor:"yellow"},
       { data: this.dataArray, 
         label: "ArchivItem", 
