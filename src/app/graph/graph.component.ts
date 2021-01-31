@@ -1,9 +1,11 @@
 import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { ChartOptions, ChartType, ChartDataSets } from 'chart.js';
 import { Color } from 'ng2-charts';
+import { Util } from 'src/utility/util';
+import { ArchivItem } from '../models/archivItem';
 import { Datapoint } from '../models/datapoint';
+import { ArchivService } from '../services/archiv.service';
 import { EventService } from '../services/event.service';
-import { GraphService } from '../services/graph.service';
 import { TemperatureService } from '../services/temperature.service';
 import { TimeService } from '../services/time.service';
 
@@ -36,7 +38,7 @@ export class GraphComponent implements OnInit {
   constructor(private timeService : TimeService, 
     private tempService : TemperatureService,
     private eventService : EventService,
-    private graphService : GraphService) {
+    private archivService: ArchivService) {
     }
 
    
@@ -46,24 +48,15 @@ export class GraphComponent implements OnInit {
     
     this.updateOptions();
     this.updateData();
-    this.graphService.graphdata.subscribe( (data : Datapoint[]) => {
-      // console.log("Data added!");
-      // let dataArray = [];
-      data.forEach((element : Datapoint) => {
-        this.dataArray.push({x: element.x, y: element.y})
-      });
 
-      // let dataItem ={ data: dataArray, 
-      //   label: "ArchivItem", 
-      //   type: "line", 
-      //   borderWidth : 0.5}
-      // this.tempData.push(dataItem);
-      // this.updateOptions();
-      // this.updateData();
-
-      // console.log(this.barChartData);
-      // console.log("Data added!");
-    })
+    this.archivService.toShowItemSubject.subscribe(
+      (archivItem : ArchivItem) =>{
+        let data = Util.measurement2data(archivItem.data)
+        data.forEach((element : Datapoint) => {
+          this.dataArray.push({x: element.x, y: element.y})
+        });
+      })
+     
     this.tempService.statusUpdate.subscribe(status => {
       if (status === "rest"){
         this.measures = [];
@@ -79,7 +72,6 @@ export class GraphComponent implements OnInit {
 
       if (time > this.maxXTick){
         this.maxXTick += this.tickShift;
-        // console.log(this.maxXTick)
         this.updateOptions();  
         
       }

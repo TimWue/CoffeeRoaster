@@ -2,8 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { faEye, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { ArchivItem } from 'src/app/models/archivItem';
 import { Measurement } from 'src/app/models/measurement';
-import { GraphService } from 'src/app/services/graph.service';
-import { Util } from 'src/utility/util';
+import { ArchivService } from 'src/app/services/archiv.service';
 
 @Component({
   selector: 'app-archiv-item',
@@ -17,7 +16,7 @@ export class ArchivItemComponent implements OnInit {
  @Input() archivItem;
  @Output() showEvent = new EventEmitter<string>();
   
-  constructor(private graphService : GraphService) { }
+  constructor(private archivService: ArchivService) { }
 
   ngOnInit(): void {
   }
@@ -27,7 +26,11 @@ export class ArchivItemComponent implements OnInit {
   }
 
   onClickPush(){
-    this.graphService.addData(Util.measurement2data(this.archivItem.data))
+    this.archivService.setToShowItem(this.archivItem);
+  }
+
+  onClickDelete(){
+    this.archivService.removeItem(this.archivItem);
   }
 
 }

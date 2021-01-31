@@ -22,7 +22,7 @@ export class TemperatureService {
   
   
   startMeasure(){
-    this.startDate = Date.now() 
+    this.startDate = Date.now(); 
     this.temperature = 0;
     this.intId = setInterval(() => {this.calcTemperature(); this.calcGradient()}, 1000);
   }

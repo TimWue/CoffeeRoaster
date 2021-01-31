@@ -11,32 +11,32 @@
             <h1 class="modal-title">Wie war die Röstung?</h1>
         </div>
         <div class="modal-body">
-            <form role="form" method="POST" action="">
+            <form role="form" method="POST" action="" [formGroup]="reviewForm">
 
                 <div style="display: flex; flex-direction: row; justify-content: center;">
                     <br>
-                    <div *ngFor="let i of ratingBool" style="width:10%; cursor:pointer;">
-                        <app-rating-item [isRated]="i"></app-rating-item>
+                    <div *ngFor="let bean of ratingBool; let i = index;" (click)="setRating(i)" style="width:10%; cursor:pointer;">
+                        <app-rating-item [isRated]="bean"></app-rating-item>
                     </div>
                 </div>
                 <br>
 
                 <div class="form-group">
                     <label for="fname">Name der Röstung:</label><br>
-                    <input type="text" id="fname" name="fname" class="textInput"><br>
+                    <input type="text" id="fname" name="fname" formControlName ="fname" class="textInput"><br>
                 </div>
                 <div class="form-group">
                     <label for="fbean">Bohne:</label><br>
-                    <input type="text" id="fbean" name="fbean" class="textInput"><br>
+                    <input type="text" id="fbean" name="fbean" formControlName ="fbean" class="textInput"><br>
                 </div>
                  <div class="form-group">
                     <label  for="fcomment">Kommentare:</label><br>
-                    <textarea name="fcomment" id="fcomment" class="textInput"></textarea>
+                    <textarea name="fcomment" id="fcomment" formControlName ="fcomment" class="textInput"></textarea>
                 </div>       
                 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Schließen</button>
-                    <button type="button" class="btn btn-dark">Speichern</button>
+                    <button type="submit" class="btn btn-dark" (click)="saveMeasurement()" data-dismiss="modal">Speichern</button>
                   </div>
             </form>
         </div>

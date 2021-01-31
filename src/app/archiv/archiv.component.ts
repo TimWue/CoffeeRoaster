@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ArchivItem } from '../models/archivItem';
 import { Measurement } from '../models/measurement';
+import { ArchivService } from '../services/archiv.service';
 
 @Component({
   selector: 'app-archiv',
@@ -9,18 +10,14 @@ import { Measurement } from '../models/measurement';
 })
 export class ArchivComponent implements OnInit {
 
-  archiv : ArchivItem[] =[new ArchivItem("Röstung Nr. 1", [new Measurement(0,40),new Measurement(1,45)],
-  3,"Leider beim Rösten eingeschlafen. Nächstes mal wirds besser", "Rote Bohne", new Date()),
-  new ArchivItem("Röstung Nr. 2", [new Measurement(0,40),,new Measurement(0.5,70),new Measurement(50,45)],
-  1,"Da ist etwas ordentlich schief gelaufen!", "Gartenbohne", new Date())]
-
-  akArchivItem : ArchivItem = this.archiv[0]
+  archivList : ArchivItem[] = this.archivService.measurementList;
+  currentItem : ArchivItem = this.archivList[0]
   
-  constructor() { }
+  constructor(private archivService: ArchivService) { }
 
   ngOnInit(): void {
   }
  setDetail(index : number){
-   this.akArchivItem = this.archiv[index];
+   this.currentItem = this.archivList[index];
  }
 }
