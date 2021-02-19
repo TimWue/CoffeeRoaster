@@ -24,6 +24,7 @@ import { StartComponent } from './start/start.component';
 import { RouteReuseStrategy } from '@angular/router';
 import { CustomReuseStrategy } from './customReUseStrategy';
 import { ReviewComponent } from './info/review/review.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -55,7 +56,8 @@ import { ReviewComponent } from './info/review/review.component';
     ChartsModule,
     NgxEchartsModule.forRoot({
       echarts: () => import('echarts')
-    })
+    }),
+    HttpClientModule
   ],
   providers: [
     {provide: RouteReuseStrategy, useClass: CustomReuseStrategy}

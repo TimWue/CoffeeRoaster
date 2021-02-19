@@ -3,6 +3,8 @@ import { TemperatureService } from '../services/temperature.service';
 import { TimeService } from '../services/time.service';
 import { faArchive, faArrowLeft, faBackward, faBars, faChartLine, faCoffee, faCogs, faHourglassHalf, faPlay, faStop, faThermometerThreeQuarters, faUndo } from '@fortawesome/free-solid-svg-icons';
 import { EventService } from '../services/event.service';
+import { Subscription } from 'rxjs';
+import { WebsocketService } from '../services/websocket.service';
 
 @Component({
   selector: 'app-info',
@@ -34,10 +36,13 @@ buttonLabel = this.buttonLabels[this.index];
   maxGradient : number = 0;
   maxGradientString : string = "NA";
 
-  
+  // Subscription
+  tempSubscription : Subscription;
+
   constructor(private timeService : TimeService, 
     private tempService : TemperatureService,
-    private eventService : EventService) {}
+    private eventService : EventService,
+    private websocketService : WebsocketService) {}
 
   ngOnInit(): void {
     this.tempService.akGradient.subscribe(value => { 
@@ -55,8 +60,12 @@ buttonLabel = this.buttonLabels[this.index];
       this.time = date.toISOString().substr(11, 8);
     })
 
-    this.tempService.getTemperature().subscribe((value : {time : number, temperature : number}) => {
-      this.temperature = value.temperature.toFixed(2);
+    // this.tempService.getTemperature().subscribe((value : {time : number, temperature : number}) => {
+    //   this.temperature = value.temperature.toFixed(2);
+    // })
+
+    this.tempSubscription = this.websocketService.msg.subscribe((msg : number) => {
+      this.temperature = msg.toFixed(2);
     })
 
   }

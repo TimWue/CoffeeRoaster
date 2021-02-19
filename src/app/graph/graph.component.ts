@@ -24,9 +24,9 @@ export class GraphComponent implements OnInit {
   public barChartLegend = true;
   public lineChartColors: Color[] = [
     {borderColor: "black", backgroundColor:"rgba(0, 0, 0,0)",borderWidth: 3},
-    {backgroundColor: "rgba(207, 218, 200,0.5)",borderColor:"rgba(0, 0, 0,0)"},
-    {backgroundColor: "rgba(150, 187, 124, 0.5)",borderColor:"rgba(0, 0, 0,0)"},
-    {backgroundColor: "rgba(124, 148, 115,0.5)",borderColor:"rgba(0, 0, 0,0)"},
+    {backgroundColor: "rgba(207, 218, 200,0.4)",borderColor:"rgba(0, 0, 0,0)"},
+    {backgroundColor: "rgba(150, 187, 124, 0.3)",borderColor:"rgba(0, 0, 0,0)"},
+    {backgroundColor: "rgba(100, 128, 95,0.3)",borderColor:"rgba(0, 0, 0,0)"},
     {borderColor: "yellow"},
     {borderColor: "grey", backgroundColor:"rgba(0, 0, 0,0)", borderDash: [5,15], borderWidth: 3}];
 
