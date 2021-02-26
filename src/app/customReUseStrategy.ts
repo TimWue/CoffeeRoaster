@@ -1,34 +1,44 @@
 import { RouteReuseStrategy,  DetachedRouteHandle, ActivatedRouteSnapshot } from "@angular/router";
 // https://www.angulararchitects.io/aktuelles/sticky-routes-in-angular-2-3/
 // This impl. bases upon one that can be found in the router's test cases.
-export class CustomReuseStrategy implements RouteReuseStrategy {
 
-    handlers: {[key: string]: DetachedRouteHandle} = {};
+// better: https://medium.com/swlh/how-to-toggle-caching-for-routing-components-in-angular-5a327ea87310
+export class CustomReuseStrategy implements RouteReuseStrategy {
+    private cache: { [key: string]: DetachedRouteHandle } = {};
 
     shouldDetach(route: ActivatedRouteSnapshot): boolean {
-        console.debug('CustomReuseStrategy:shouldDetach', route);
-        return true;
+      return route.routeConfig.data && route.routeConfig.data.reuse;
     }
-
-    store(route: ActivatedRouteSnapshot, handle: DetachedRouteHandle): void {
-        console.debug('CustomReuseStrategy:store', route, handle);
-        this.handlers[route.routeConfig.path] = handle;
+    store(route: ActivatedRouteSnapshot, handler: DetachedRouteHandle): void {
+      if (handler) {
+        this.cache[this.getUrl(route)] = handler;
+      }
     }
-
     shouldAttach(route: ActivatedRouteSnapshot): boolean {
-        console.debug('CustomReuseStrategy:shouldAttach', route);
-        return !!route.routeConfig && !!this.handlers[route.routeConfig.path];
+      return !!this.cache[this.getUrl(route)];
     }
-
     retrieve(route: ActivatedRouteSnapshot): DetachedRouteHandle {
-        console.debug('CustomReuseStrategy:retrieve', route);
-        if (!route.routeConfig) return null;
-        return this.handlers[route.routeConfig.path];
+      if (!route.routeConfig || route.routeConfig.loadChildren) {
+        return null;
+      }
+      return this.cache[this.getUrl(route)];
     }
-
-    shouldReuseRoute(future: ActivatedRouteSnapshot, curr: ActivatedRouteSnapshot): boolean {
-        console.debug('CustomReuseStrategy:shouldReuseRoute', future, curr);
-        return future.routeConfig === curr.routeConfig;
+    shouldReuseRoute(
+      future: ActivatedRouteSnapshot,
+      current: ActivatedRouteSnapshot
+    ): boolean {
+      if (
+        future.routeConfig &&
+        future.routeConfig.data &&
+        future.routeConfig.data.reuse !== undefined
+      ) {
+        return future.routeConfig.data.reuse;
+      }
+      return future.routeConfig === current.routeConfig;
     }
-
+    getUrl(route: ActivatedRouteSnapshot): string {
+      if (route.routeConfig) {
+        return route.routeConfig.path;
+      }
+    }
 }

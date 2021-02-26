@@ -2,13 +2,15 @@
     <h2>Archiv</h2>
     <hr>
     <div class="boxH">
-        <div style="width:70%;">
+        <div style="width:70%; overflow-y: auto;">
             <div style="display:flex;flex-direction: column;" 
                 *ngFor="let item of archivList; let i = index;">
-                <app-archiv-item [archivItem]="item" (showEvent)="setDetail(i)"></app-archiv-item>
+                <app-archiv-item [archivItem]="item" (itemEvent)="handleItemEvent($event,i)"></app-archiv-item>
             </div>
         </div>
-        <div style="width:30%">
+        <div
+        *ngIf="archivList?.length>0" 
+        style="width:30%; margin-right: 2%;">
             <app-archiv-detail [archivItem]="currentItem"></app-archiv-detail>
         </div>
     </div>

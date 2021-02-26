@@ -10,7 +10,7 @@ import {WebsocketService} from '../services/websocket.service'
 export class OptionComponent implements OnInit {
   // private socket: Subject<any>;
   // private counterSubscription: Subscription;
-  public message: number;
+  //public message: number;
   // public sentMessage: string;
   
   constructor(private websocketService: WebsocketService){
@@ -18,11 +18,12 @@ export class OptionComponent implements OnInit {
   }
   
   ngOnInit(){
-
+    /*
     this.websocketService.msg.subscribe((msg : number) => {
       console.log(msg);
       this.message = msg;
     })
+    */
    
   }
 

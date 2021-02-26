@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { ArchivItem } from '../models/archivItem';
 import { Measurement } from '../models/measurement';
-import { ArchivService } from '../services/archiv.service';
+import { RepositoryService } from '../services/repository.service';
 
 @Component({
   selector: 'app-archiv',
@@ -9,15 +9,32 @@ import { ArchivService } from '../services/archiv.service';
   styleUrls: ['./archiv.component.css']
 })
 export class ArchivComponent implements OnInit {
-
-  archivList : ArchivItem[] = this.archivService.measurementList;
-  currentItem : ArchivItem = this.archivList[0]
+  archivList : ArchivItem[];
+  currentItem : ArchivItem = new ArchivItem(-1,"",[new Measurement(0,0)],-1,"","",null);
   
-  constructor(private archivService: ArchivService) { }
+  constructor(private repositoryService : RepositoryService) { }
 
   ngOnInit(): void {
+    this.getArchiv();
   }
+
+handleItemEvent(event : string, index : number){
+  if (event === "show"){
+    this.setDetail(index);
+  } else if(event ==="delete"){
+    this.archivList.splice(index,1);
+  }
+
+}
  setDetail(index : number){
    this.currentItem = this.archivList[index];
+ }
+
+ getArchiv(){
+  this.repositoryService.getArchivItem().subscribe(data =>{
+    this.archivList = [];
+    this.archivList = data;
+    this.currentItem = this.archivList[0]
+  })
  }
 }

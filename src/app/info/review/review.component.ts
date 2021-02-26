@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { MeasurementService } from 'src/app/services/measurement.service';
 import { RepositoryService } from 'src/app/services/repository.service';
+import { TemperatureService } from 'src/app/services/temperature.service';
 
 @Component({
   selector: 'app-review',
@@ -17,7 +18,8 @@ export class ReviewComponent implements OnInit {
   });
   constructor(private measurementService : MeasurementService, 
     private formBuilder: FormBuilder,
-    private repoService : RepositoryService) { }
+    private repoService : RepositoryService,
+    private tempService : TemperatureService) { }
 
   ngOnInit(): void {
   }
@@ -28,9 +30,16 @@ export class ReviewComponent implements OnInit {
   }
 
   saveMeasurement(){
-    this.repoService.postRoast();
     console.log(this.reviewForm.value);
     let values : {fname : string, fbean : string, fcomment : string} = this.reviewForm.value;
+    this.repoService.postRoast(
+      values.fname,
+      values.fbean,
+      values.fcomment, 
+      this.ratingBool.filter(Boolean).length,
+      new Date(),
+      this.tempService.measures);
+
     this.measurementService.setName(values.fname);
     this.measurementService.setBean(values.fbean);
     this.measurementService.setComments(values.fcomment);

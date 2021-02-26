@@ -17,13 +17,15 @@ export class ArchivDetailComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.rating2bool();
-    console.log(this.ratingBool)
   }
 
   rating2bool(){
-    for (let i =0; i<this.archivItem.rating; i++){
+    if (this.archivItem.rating){
+      for (let i =0; i<this.archivItem.rating; i++){
         this.ratingBool[i] = true;
     }
+    }
+    
   }
 
 }

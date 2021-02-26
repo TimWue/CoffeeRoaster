@@ -4,11 +4,12 @@ import { Measurement } from '../models/measurement';
 import { ArchivService } from './archiv.service';
 import { TemperatureService } from './temperature.service';
 
+// Wird nicht mehr gebraucht wenn backend funktioniert
+
 @Injectable({
   providedIn: 'root'
 })
 export class MeasurementService {
-
   comments = "";
   rating = 0;
   name = "";
@@ -30,10 +31,10 @@ export class MeasurementService {
   addMeasurement(){
     this.timestamp = new Date();
     this.data = this.tempService.measures;
-    
+    /*
     let archivItem = new ArchivItem(this.name, 
       this.data, this.rating, this.comments, this.bean, this.timestamp);
-    this.archivService.addItem(archivItem)
+    this.archivService.addItem(archivItem)*/
   }
 
   setComments(comment : string){

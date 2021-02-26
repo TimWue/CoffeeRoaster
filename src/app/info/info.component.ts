@@ -60,12 +60,8 @@ buttonLabel = this.buttonLabels[this.index];
       this.time = date.toISOString().substr(11, 8);
     })
 
-    // this.tempService.getTemperature().subscribe((value : {time : number, temperature : number}) => {
-    //   this.temperature = value.temperature.toFixed(2);
-    // })
-
-    this.tempSubscription = this.websocketService.msg.subscribe((msg : number) => {
-      this.temperature = msg.toFixed(2);
+    this.tempSubscription = this.websocketService.msg.subscribe((msg : string) => {
+      this.temperature = msg;
     })
 
   }

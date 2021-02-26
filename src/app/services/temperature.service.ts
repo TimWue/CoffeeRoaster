@@ -25,16 +25,15 @@ export class TemperatureService {
   startMeasure(){
     this.startDate = Date.now(); 
     this.temperature = 0;
-    this.tempSubscription = this.websocketService.msg.subscribe((msg : number) => {
-      this.pushTemperatureMeasurement(msg)
+    this.tempSubscription = this.websocketService.msg.subscribe((msg : string) => {
+      this.pushTemperatureMeasurement(parseFloat(msg));
+      this.calcGradient();
     })
 
-    //this.intId = setInterval(() => {this.calcTemperature(); this.calcGradient()}, 1000);
   }
 
   stopMeasure(){
     this.tempSubscription.unsubscribe();
-    //clearInterval(this.intId)
   }
 
   getRandomArbitrary(min, max) {
@@ -43,7 +42,9 @@ export class TemperatureService {
 
   pushTemperatureMeasurement(temp : number){
     let akTime = Date.now() - this.startDate;
-    this.subject.next({time : akTime/1000, temperature : temp})
+    this.subject.next({time : akTime/1000, temperature : temp});
+    this.measures.push(new Measurement(akTime/1000,temp))
+
 
   }
 
@@ -56,13 +57,10 @@ export class TemperatureService {
   }
 
   resetTemperature(){
-   // clearInterval(this.intId)
     this.tempSubscription.unsubscribe();
 
     this.statusUpdate.next("reset")
     this.measures = [];
-    // this.subject.next({time : 0, temperature : 0})
-
   }
 
 
@@ -73,7 +71,6 @@ export class TemperatureService {
 
   calcGradient(){
     let mlen = this.measures.length-1; 
-    // console.log(this.measures[mlen]);
     if (mlen > 2){
       this.akGradient.next((this.measures[mlen].temperature - this.measures[mlen-1].temperature)/
       (this.measures[mlen].time - this.measures[mlen-1].time)) 

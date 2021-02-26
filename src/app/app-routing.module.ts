@@ -6,11 +6,11 @@ import { RoastComponent } from './roast/roast.component';
 import { StartComponent } from './start/start.component';
 
 const routes: Routes = [
-  {path: 'roasting', component : RoastComponent},
-  {path:'archiv', component : ArchivComponent},
-  {path:'option', component : OptionComponent},
-  { path: '**', component : StartComponent},
-  {path: 'start', component : StartComponent  }
+  {path: 'roasting', component : RoastComponent, data: {reuse:true}},
+  {path:'archiv', component : ArchivComponent, data: {reuse:false}},
+  {path:'option', component : OptionComponent, data: {reuse:false}},
+  { path: '**', component : StartComponent, data: {reuse:false}},
+  {path: 'start', component : StartComponent, data: {reuse:false}  }
 
 ];
 

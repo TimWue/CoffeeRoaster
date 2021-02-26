@@ -14,21 +14,26 @@ export class WebsocketService {
     this.initializeWebSocketConnection();
   }
   public stompClient;
-  public msg = new Subject<number>();  
+  public msg = new Subject<String>();  
 
 
 
   initializeWebSocketConnection() {
     const serverUrl = 'http://localhost:8080/websocket';
     const ws = new SockJS(serverUrl);
-    this.stompClient = Stomp.over(ws);
-    const that = this;
+    this.stompClient = Stomp.over(function () {
+      return new SockJS(serverUrl);
+      });
 
+    // Some Configs
+    this.stompClient.debug = () => {}; // https://stackoverflow.com/questions/25683022/how-to-disable-debug-messages-on-sockjs-stomp
+    this.stompClient.reconnect_delay = 5000;
+
+    const that = this;
     this.stompClient.connect({}, function(frame) {
       that.stompClient.subscribe('/temperature/stream', (message) => {
         if (message.body) {
-          let tempMessage = JSON.parse(message.body);
-          that.msg.next(tempMessage.temperature);
+          that.msg.next(message.body);
         }
       });
     });

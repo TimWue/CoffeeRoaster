@@ -1,10 +1,7 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { ChartDataSets } from 'chart.js';
 import { Color } from 'ng2-charts';
-import { utils } from 'protractor';
 import { ArchivItem } from 'src/app/models/archivItem';
-import { Datapoint } from 'src/app/models/datapoint';
-import { Measurement } from 'src/app/models/measurement';
 import { Util} from 'src/utility/util'
 
 @Component({
@@ -24,29 +21,27 @@ export class SimpleGraphComponent implements OnInit, OnChanges {
     scales : {
       yAxes: [{
         ticks: {
-            max : 500,
+            max : 350,
             min: 0
           }
       }],
     }
   };
 
-  public ChartColors: Color[] = [{borderColor: "white"}]
+  public ChartColors: Color[] = [{borderColor: "black", backgroundColor:"rgba(0, 0, 0,0)",borderWidth: 1}]
   
   constructor() { }
+
   ngOnChanges(changes: SimpleChanges): void {
-    console.log(this.archivItem)
     this.ChartData = [
-      { data: Util.measurement2data(this.archivItem.data), label: this.archivItem.name, type: "line", borderWidth : 0.5,  pointBackgroundColor: "white" },
+      { data: Util.measurement2data(this.archivItem.data), label: this.archivItem.name, type: "line"},
     ];
   }
 
   ngOnInit(): void {
-    Util.test();
-    
-    console.log(this.archivItem)
     this.ChartData = [
-      { data: Util.measurement2data(this.archivItem.data), label: this.archivItem.name, type: "line", borderWidth : 0.5,  pointBackgroundColor: "white" },
+      { data: Util.measurement2data(this.archivItem.data), label: this.archivItem.name, type: "line"},
     ];
+    
   }
 }
