@@ -5,6 +5,7 @@ import { faArchive, faArrowLeft, faBackward, faBars, faChartLine, faCoffee, faCo
 import { EventService } from '../services/event.service';
 import { Subscription } from 'rxjs';
 import { WebsocketService } from '../services/websocket.service';
+import { SensorMessage } from '../models/sensorMessage';
 
 @Component({
   selector: 'app-info',
@@ -61,7 +62,8 @@ buttonLabel = this.buttonLabels[this.index];
     })
 
     this.tempSubscription = this.websocketService.msg.subscribe((msg : string) => {
-      this.temperature = msg;
+      let message : SensorMessage[] = JSON.parse(msg); 
+      this.temperature = message[0].value.toFixed(2);
     })
 
   }

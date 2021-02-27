@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Subject, Subscription } from 'rxjs';
 import { Measurement } from '../models/measurement';
+import { SensorMessage } from '../models/sensorMessage';
 import { WebsocketService } from './websocket.service';
 
 @Injectable({
@@ -26,7 +27,8 @@ export class TemperatureService {
     this.startDate = Date.now(); 
     this.temperature = 0;
     this.tempSubscription = this.websocketService.msg.subscribe((msg : string) => {
-      this.pushTemperatureMeasurement(parseFloat(msg));
+      let message : SensorMessage[] = JSON.parse(msg); 
+      this.pushTemperatureMeasurement(message[0].value);
       this.calcGradient();
     })
 
@@ -36,9 +38,6 @@ export class TemperatureService {
     this.tempSubscription.unsubscribe();
   }
 
-  getRandomArbitrary(min, max) {
-    return Math.random() * (max - min) + min;
-  }
 
   pushTemperatureMeasurement(temp : number){
     let akTime = Date.now() - this.startDate;
@@ -48,22 +47,12 @@ export class TemperatureService {
 
   }
 
-  calcTemperature(){
-    let temp = this.getRandomArbitrary(20, 300);
-
-    let akTime = Date.now() - this.startDate;
-    this.subject.next({time : akTime/1000, temperature : temp})
-    this.measures.push(new Measurement(akTime/1000,temp))
-  }
-
   resetTemperature(){
     this.tempSubscription.unsubscribe();
 
     this.statusUpdate.next("reset")
     this.measures = [];
   }
-
-
   
   getTemperature() : Subject<{time : number, temperature : number}>{
     return this.subject;

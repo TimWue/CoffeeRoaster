@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Stomp } from '@stomp/stompjs';
 import { Subject } from 'rxjs';
 import * as SockJS from 'sockjs-client';
+import { SensorMessage } from '../models/sensorMessage';
 
 
 @Injectable({
@@ -33,6 +34,7 @@ export class WebsocketService {
     this.stompClient.connect({}, function(frame) {
       that.stompClient.subscribe('/temperature/stream', (message) => {
         if (message.body) {
+          //console.log(message.body)
           that.msg.next(message.body);
         }
       });

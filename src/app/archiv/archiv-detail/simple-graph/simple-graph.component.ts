@@ -28,7 +28,7 @@ export class SimpleGraphComponent implements OnInit, OnChanges {
     }
   };
 
-  public ChartColors: Color[] = [{borderColor: "black", backgroundColor:"rgba(0, 0, 0,0)",borderWidth: 1}]
+  public ChartColors: Color[] = [{borderColor: "black", backgroundColor:"rgba(0, 0, 0,0)",borderWidth: 1, pointRadius:0}]
   
   constructor() { }
 
