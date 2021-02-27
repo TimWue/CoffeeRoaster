@@ -25,6 +25,8 @@ import { RouteReuseStrategy } from '@angular/router';
 import { CustomReuseStrategy } from './customReUseStrategy';
 import { ReviewComponent } from './info/review/review.component';
 import { HttpClientModule } from '@angular/common/http';
+import {MatPaginatorModule} from '@angular/material/paginator';
+
 
 @NgModule({
   declarations: [
@@ -57,7 +59,8 @@ import { HttpClientModule } from '@angular/common/http';
     NgxEchartsModule.forRoot({
       echarts: () => import('echarts')
     }),
-    HttpClientModule
+    HttpClientModule,
+    MatPaginatorModule
   ],
   providers: [
     {provide: RouteReuseStrategy, useClass: CustomReuseStrategy}

@@ -3,10 +3,34 @@
     <hr>
     <div class="boxH">
         <div style="width:70%; overflow-y: auto;">
+            <div style="width:90%" class="push">
+                <div style="margin-right: auto;">
+                <h4>Röstungen</h4>
+            </div>
+
+            <div>
+
+                <div class="dropdown">
+                    <button class="btn buttonOwn dropbtn" ><fa-icon [icon]="faSort" class="fa-lg" ></fa-icon></button>
+                    <div class="dropdown-content">
+                        <button class="btn" (click)="sortByDate()">Date</button>
+                        <button class="btn" (click)="sortByName()">Name</button>
+                        <button class="btn" (click)="sortByRating()">Rating</button>
+
+                      
+                    </div>
+                  </div>
+
+                <button class="btn buttonOwn" ><fa-icon [icon]="faFilter" class="fa-lg"></fa-icon></button>
+
+            </div>
+        </div>
+
             <div style="display:flex;flex-direction: column;" 
                 *ngFor="let item of archivList; let i = index;">
                 <app-archiv-item [archivItem]="item" (itemEvent)="handleItemEvent($event,i)"></app-archiv-item>
             </div>
+
         </div>
         <div
         *ngIf="archivList?.length>0" 
