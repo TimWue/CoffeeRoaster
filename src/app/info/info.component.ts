@@ -62,6 +62,7 @@ buttonLabel = this.buttonLabels[this.index];
     })
 
     this.tempSubscription = this.websocketService.msg.subscribe((msg : string) => {
+      
       let message : SensorMessage[] = JSON.parse(msg); 
       this.temperature = message[0].value.toFixed(2);
     })

@@ -4,6 +4,7 @@ import { Color } from 'ng2-charts';
 import { Util } from 'src/utility/util';
 import { ArchivItem } from '../models/archivItem';
 import { Datapoint } from '../models/datapoint';
+import { SensorMessage } from '../models/sensorMessage';
 import { ArchivService } from '../services/archiv.service';
 import { EventService } from '../services/event.service';
 import { TemperatureService } from '../services/temperature.service';
@@ -15,25 +16,30 @@ import { TimeService } from '../services/time.service';
   styleUrls: ['./graph.component.css']
 })
 export class GraphComponent implements OnInit {
-
+  sensor1 = [];
+  sensor2 = [];
+  sensor3 = [];
   phases = [];
   measures = [];
+  public dataArray  = [];
+
   maxXTick = 20*60;
   tickShift = 20; // um so viel wird maxXTick erhöht wenn maxXTick Daten vorhanden sind
   barChartOptions: ChartOptions;
   public barChartLegend = true;
   public lineChartColors: Color[] = [
-    {borderColor: "black", backgroundColor:"rgba(0, 0, 0,0)",borderWidth: 3},
-    {backgroundColor: "rgba(207, 218, 200,0.4)",borderColor:"rgba(0, 0, 0,0)"},
-    {backgroundColor: "rgba(150, 187, 124, 0.3)",borderColor:"rgba(0, 0, 0,0)"},
-    {backgroundColor: "rgba(100, 128, 95,0.3)",borderColor:"rgba(0, 0, 0,0)"},
-    {borderColor: "yellow"},
-    {borderColor: "grey", backgroundColor:"rgba(0, 0, 0,0)", borderDash: [5,15], borderWidth: 3}];
+    {borderColor: "black", backgroundColor:"rgba(0, 0, 0,0)",borderWidth: 3}, //sensor1
+    {backgroundColor: "rgba(207, 218, 200,0.4)",borderColor:"rgba(0, 0, 0,0)"}, //background
+    {backgroundColor: "rgba(150, 187, 124, 0.3)",borderColor:"rgba(0, 0, 0,0)"}, //background
+    {backgroundColor: "rgba(100, 128, 95,0.3)",borderColor:"rgba(0, 0, 0,0)"}, //background
+    {borderColor: "yellow"}, //phases
+    {borderColor: "grey", backgroundColor:"rgba(0, 0, 0,0)", borderDash: [5,15], borderWidth: 3}, //archivItem
+    {borderColor: "green", backgroundColor:"rgba(0, 0, 0,0)",borderWidth: 3},  //sensor2
+    {borderColor: "blue", backgroundColor:"rgba(0, 0, 0,0)",borderWidth: 3},]; //sensor3
 
   public barChartData: ChartDataSets[];
-  public dataArray  = [];
   
-  constructor(private timeService : TimeService, 
+  constructor( 
     private tempService : TemperatureService,
     private eventService : EventService,
     private archivService: ArchivService) {
@@ -58,22 +64,26 @@ export class GraphComponent implements OnInit {
      
     this.tempService.statusUpdate.subscribe(status => {
       if (status === "reset"){
-        this.measures = [];
+        this.sensor1 = [];
+        this.sensor2 = [];
+        this.sensor3 = [];
         this.phases = [];
         this.updateData()
       }
     })
 
-    this.tempService.getTemperature().subscribe((value : {time : number, temperature : number}) => {
-      let time = (value.time)
-      this.measures.push({x : time, y: value.temperature})
-
-      if (time > this.maxXTick){
-        this.maxXTick += this.tickShift;
-        this.updateOptions();  
-        
+    this.tempService.measurement.subscribe((sensorMessage : SensorMessage) => {
+      if (sensorMessage.sensorName === "sensor1"){
+        this.sensor1.push({x : sensorMessage.time, y : sensorMessage.value})
+      } else if (sensorMessage.sensorName === "sensor2"){
+        this.sensor2.push({x : sensorMessage.time, y : sensorMessage.value})
+      } else if (sensorMessage.sensorName === "sensor3"){
+        this.sensor3.push({x : sensorMessage.time, y : sensorMessage.value})
       }
-     })
+      this.updateTicks(sensorMessage.time);
+
+    })
+
 
      this.eventService.graphEvent.subscribe(value => {
        if (value === "addPhase"){
@@ -83,6 +93,13 @@ export class GraphComponent implements OnInit {
         this.popPhase()
       }
      })
+  }
+
+  updateTicks(time : number){
+    if (time > this.maxXTick){
+      this.maxXTick += this.tickShift;
+      this.updateOptions();  
+    }
   }
 
   updateOptions(){
@@ -113,37 +130,23 @@ export class GraphComponent implements OnInit {
 
   updateData(){
     this.barChartData = [
-      { data: this.measures, label: "Röstung", type: "line", borderWidth : 0.5, pointRadius:0 },
+      { data: this.sensor1, label: "Sensor 1", type: "line", borderWidth : 0.5, pointRadius:0 },
       {data: [{x:-10,y:150}, {x:-10,y:0},{x:100000,y:0},{x:100000,y:150},{x:-10,y:150}],label :"", type:"line", lineTension: 0},
       {data: [{x:-10,y:300}, {x:-10,y:150},{x:100000,y:150},{x:100000,y:300},{x:-10,y:300}], type:"line", lineTension: 0},
       {data: [{x:-10,y:350}, {x:-10,y:300},{x:100000,y:300},{x:100000,y:350},{x:-10,y:350}], type:"line", lineTension: 0},
       {data: this.phases, pointRadius: 10, pointBackgroundColor:"yellow"},
-      { data: this.dataArray, 
-        label: "ArchivItem", 
-        type: "line", 
-        borderWidth : 0.5, pointRadius: 0}
+      { data: this.dataArray, label: "ArchivItem", type: "line", borderWidth : 0.5, pointRadius: 0},
+      { data: this.sensor2, label: "Sensor 2", type: "line", borderWidth : 0.5, pointRadius:0 },
+      { data: this.sensor3, label: "Sensor 3", type: "line", borderWidth : 0.5, pointRadius:0 },
     ];
-    // this.barChartData = [
-    //   { data: this.measures, label: "Röstung", type: "line", borderWidth : 0.5, pointRadius:0 },
-    //   {data: [{x:-10,y:200}, {x:-10,y:150},{x:1000,y:150},{x:1000,y:200},{x:-10,y:200}], type:"line", lineTension: 0},
-    //   {data: [{x:-10,y:350}, {x:-10,y:200},{x:1000,y:200},{x:1000,y:350},{x:-10,y:350}], type:"line", lineTension: 0},
-    //   {data: [{x:-10,y:500}, {x:-10,y:350},{x:1000,y:350},{x:1000,y:500},{x:-10,y:500}], type:"line", lineTension: 0},
-    //   {data: this.phases, pointRadius: 10, pointBackgroundColor:"yellow"}
-    // ];
-    // this.barChartData = this.tempData;
   }
 
   setPhase(){
     this.phases.push(this.measures[this.measures.length-1])
-    console.log(this.measures[this.measures.length-1])
-    console.log(this.phases[this.phases.length-1])
-    // this.updateData();
-
   }
 
   popPhase(){
     this.phases.pop();
-    // this.updateData();
   }
 
 }

@@ -1,5 +1,5 @@
 export class SensorMessage{
-    constructor(public sensorName : string, public time : Date, public value : number){
+    constructor(public sensorName : string, public time : number, public value : number){
         
     }
 }
