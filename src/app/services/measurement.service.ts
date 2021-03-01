@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ArchivItem } from '../models/archivItem';
 import { Measurement } from '../models/measurement';
+import { MultipleMeasurement } from '../models/multipleMeasurement';
 import { ArchivService } from './archiv.service';
 import { TemperatureService } from './temperature.service';
 
@@ -15,7 +16,7 @@ export class MeasurementService {
   name = "";
   bean = "";
   timestamp : Date;
-  data : Measurement[] = [];
+  data : MultipleMeasurement[];
 
   constructor(private archivService : ArchivService,
     private tempService : TemperatureService) { }
@@ -25,7 +26,7 @@ export class MeasurementService {
     this.rating = 0;
     this.name = "";
     this.bean = "";
-    this.data  = [];
+    this.data = null;
   }
 
   addMeasurement(){

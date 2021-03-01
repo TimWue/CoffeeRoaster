@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Subject, Subscription } from 'rxjs';
 import { Measurement } from '../models/measurement';
+import { MultipleMeasurement } from '../models/multipleMeasurement';
 import { SensorMessage } from '../models/sensorMessage';
 import { WebsocketService } from './websocket.service';
 
@@ -19,7 +20,7 @@ export class TemperatureService {
   intId : any; 
   subject = new Subject<{time : number, temperature : number}>();
   statusUpdate = new Subject<string>();
-  measures : Measurement[] = [];
+  measures : MultipleMeasurement[] = [new MultipleMeasurement([]), new MultipleMeasurement([]), new MultipleMeasurement([])];
   tempSubscription : Subscription; //https://stackoverflow.com/questions/43447775/objectunsubscribederror-object-unsubscribed-error-when-i-am-using-ngx-progress
   measurement = new Subject<SensorMessage>();
   
@@ -47,7 +48,12 @@ export class TemperatureService {
       this.measurement.next(sensorMessage);
 
       if (sensorMessage.sensorName === "sensor1"){ // We need do do this for the other sensors as well
-        this.measures.push(new Measurement(sensorMessage.time,sensorMessage.value))
+        this.measures[0].measurements.push(new Measurement(sensorMessage.time,sensorMessage.value))
+        //this.measures[0].push(new Measurement(sensorMessage.time,sensorMessage.value))
+      } else if (sensorMessage.sensorName === "sensor2"){ // We need do do this for the other sensors as well
+        this.measures[1].measurements.push(new Measurement(sensorMessage.time,sensorMessage.value))
+      } else if (sensorMessage.sensorName === "sensor3"){ // We need do do this for the other sensors as well
+        this.measures[2].measurements.push(new Measurement(sensorMessage.time,sensorMessage.value))
       }
     });
 
@@ -64,7 +70,7 @@ export class TemperatureService {
     this.tempSubscription.unsubscribe();
 
     this.statusUpdate.next("reset")
-    this.measures = [];
+    this.measures = [new MultipleMeasurement([]), new MultipleMeasurement([]), new MultipleMeasurement([])];
   }
   
   /*
@@ -74,10 +80,11 @@ export class TemperatureService {
   */
 
   calcGradient(){
+    // For all three sensors? Now, we do it only for the first one
     let mlen = this.measures.length-1; 
     if (mlen > 2){
-      this.akGradient.next((this.measures[mlen].temperature - this.measures[mlen-1].temperature)/
-      (this.measures[mlen].time - this.measures[mlen-1].time)) 
+      this.akGradient.next((this.measures[0].measurements[mlen].temperature - this.measures[0].measurements[mlen-1].temperature)/
+      (this.measures[0].measurements[mlen].time - this.measures[0].measurements[mlen-1].time)) 
     }
 
   }

@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ArchivItem } from '../models/archivItem';
 import { Measurement } from '../models/measurement';
+import { MultipleMeasurement } from '../models/multipleMeasurement';
 import { ArchivService } from './archiv.service';
 
 @Injectable({
@@ -13,7 +14,7 @@ export class RepositoryService {
   constructor(private http: HttpClient) { }
 
 
-  postRoast(name : String, bean : String, comment : String, rating : number, date : Date, data : Measurement[]){
+  postRoast(name : String, bean : String, comment : String, rating : number, date : Date, data : MultipleMeasurement[]){
     const body = {
       "name": name,
       "bean": bean,

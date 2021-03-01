@@ -2,6 +2,7 @@ import { Component, OnInit} from '@angular/core';
 import { faFilter, faSort } from '@fortawesome/free-solid-svg-icons';
 import { ArchivItem } from '../models/archivItem';
 import { Measurement } from '../models/measurement';
+import { MultipleMeasurement } from '../models/multipleMeasurement';
 import { RepositoryService } from '../services/repository.service';
 
 @Component({
@@ -13,7 +14,7 @@ export class ArchivComponent implements OnInit {
   faFilter = faFilter;
   faSort = faSort;
   archivList : ArchivItem[];
-  currentItem : ArchivItem = new ArchivItem(-1,"",[new Measurement(0,0)],-1,"","",null);
+  currentItem : ArchivItem = new ArchivItem(-1,"",[new MultipleMeasurement([]), new MultipleMeasurement([]), new MultipleMeasurement([])],-1,"","",null);
   
   constructor(private repositoryService : RepositoryService) { }
 

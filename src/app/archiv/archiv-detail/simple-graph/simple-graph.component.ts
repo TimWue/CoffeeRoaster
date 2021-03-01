@@ -28,19 +28,25 @@ export class SimpleGraphComponent implements OnInit, OnChanges {
     }
   };
 
-  public ChartColors: Color[] = [{borderColor: "black", backgroundColor:"rgba(0, 0, 0,0)",borderWidth: 1, pointRadius:0}]
+  public ChartColors: Color[] = [{borderColor: "black", backgroundColor:"rgba(0, 0, 0,0)",borderWidth: 1, pointRadius:0},
+                                 {borderColor: "green", backgroundColor:"rgba(0, 0, 0,0)",borderWidth: 1, pointRadius:0},
+                                 {borderColor: "blue", backgroundColor:"rgba(0, 0, 0,0)",borderWidth: 1, pointRadius:0}]
   
   constructor() { }
 
   ngOnChanges(changes: SimpleChanges): void {
     this.ChartData = [
-      { data: Util.measurement2data(this.archivItem.data), label: this.archivItem.name, type: "line"},
+      { data: Util.measurement2data(this.archivItem.data[0].measurements), label: this.archivItem.name, type: "line"},
+      { data: Util.measurement2data(this.archivItem.data[1].measurements), label: this.archivItem.name, type: "line"},
+      { data: Util.measurement2data(this.archivItem.data[2].measurements), label: this.archivItem.name, type: "line"}
     ];
   }
 
   ngOnInit(): void {
     this.ChartData = [
-      { data: Util.measurement2data(this.archivItem.data), label: this.archivItem.name, type: "line"},
+      { data: Util.measurement2data(this.archivItem.data[0].measurements), label: this.archivItem.name, type: "line"},
+      { data: Util.measurement2data(this.archivItem.data[1].measurements), label: this.archivItem.name, type: "line"},
+      { data: Util.measurement2data(this.archivItem.data[2].measurements), label: this.archivItem.name, type: "line"}
     ];
     
   }

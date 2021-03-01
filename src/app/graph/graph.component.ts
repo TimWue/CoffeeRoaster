@@ -8,7 +8,6 @@ import { SensorMessage } from '../models/sensorMessage';
 import { ArchivService } from '../services/archiv.service';
 import { EventService } from '../services/event.service';
 import { TemperatureService } from '../services/temperature.service';
-import { TimeService } from '../services/time.service';
 
 @Component({
   selector: 'app-graph',
@@ -56,7 +55,7 @@ export class GraphComponent implements OnInit {
           this.updateData();
         }
         
-        let data = Util.measurement2data(archivItem.data)
+        let data = Util.measurement2data(archivItem.data[0].measurements)
         data.forEach((element : Datapoint) => {
           this.dataArray.push({x: element.x, y: element.y})
         });
