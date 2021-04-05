@@ -49,12 +49,15 @@ export class TemperatureService {
 
       if (sensorMessage.sensorName === "sensor1"){ // We need do do this for the other sensors as well
         this.measures[0].measurements.push(new Measurement(sensorMessage.time,sensorMessage.value))
+        this.calcGradient()
         //this.measures[0].push(new Measurement(sensorMessage.time,sensorMessage.value))
       } else if (sensorMessage.sensorName === "sensor2"){ // We need do do this for the other sensors as well
         this.measures[1].measurements.push(new Measurement(sensorMessage.time,sensorMessage.value))
       } else if (sensorMessage.sensorName === "sensor3"){ // We need do do this for the other sensors as well
         this.measures[2].measurements.push(new Measurement(sensorMessage.time,sensorMessage.value))
       }
+
+      //this.calcGradient()
     });
 
     
@@ -80,9 +83,13 @@ export class TemperatureService {
   */
 
   calcGradient(){
+    //console.log("Calculating gradient ...")
     // For all three sensors? Now, we do it only for the first one
-    let mlen = this.measures.length-1; 
+    let mlen = this.measures[0].measurements.length-1 
+
     if (mlen > 2){
+      //console.log(this.measures[0].measurements[mlen].temperature)
+
       this.akGradient.next((this.measures[0].measurements[mlen].temperature - this.measures[0].measurements[mlen-1].temperature)/
       (this.measures[0].measurements[mlen].time - this.measures[0].measurements[mlen-1].time)) 
     }
