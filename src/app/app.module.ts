@@ -26,7 +26,25 @@ import { CustomReuseStrategy } from './customReUseStrategy';
 import { ReviewComponent } from './info/review/review.component';
 import { HttpClientModule } from '@angular/common/http';
 import {MatPaginatorModule} from '@angular/material/paginator';
+import { APP_INITIALIZER } from '@angular/core';
+import { ConfigService } from './services/config.service';
+import { IMqttServiceOptions, MqttModule } from "ngx-mqtt";
+import { environment as env } from '../environments/environment';
 
+const MQTT_SERVICE_OPTIONS: IMqttServiceOptions = {
+  hostname: env.mqtt.server,
+  port: env.mqtt.port,
+  protocol: (env.mqtt.protocol === "wss") ? "wss" : "ws",
+  path: '',
+};
+
+// This is for configfile
+// https://juristr.com/blog/2018/01/ng-app-runtime-config/
+const appInitializerFn = (appConfig: ConfigService) => {
+  return () => {
+    return appConfig.loadAppConfig();
+  };
+};
 
 @NgModule({
   declarations: [
@@ -60,10 +78,17 @@ import {MatPaginatorModule} from '@angular/material/paginator';
       echarts: () => import('echarts')
     }),
     HttpClientModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MqttModule.forRoot(MQTT_SERVICE_OPTIONS)
   ],
   providers: [
-    {provide: RouteReuseStrategy, useClass: CustomReuseStrategy}
+    {provide: RouteReuseStrategy, useClass: CustomReuseStrategy},
+    {
+      provide: APP_INITIALIZER,
+      useFactory: appInitializerFn,
+      multi: true,
+      deps: [ConfigService]
+    }
   ],
   bootstrap: [AppComponent]
 })

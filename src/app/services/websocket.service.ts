@@ -3,15 +3,18 @@ import { Stomp } from '@stomp/stompjs';
 import { Subject } from 'rxjs';
 import * as SockJS from 'sockjs-client';
 import { SensorMessage } from '../models/sensorMessage';
+import { ConfigService } from './config.service';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class WebsocketService {
+  apiIp : string;
   // We need to improve this as in https://dimitr.im/websockets-angular
 
-  constructor() {
+  constructor(private configService : ConfigService) {
+    this.apiIp = configService.getConfig().apiIp;
     this.initializeWebSocketConnection();
   }
   public stompClient;
@@ -20,7 +23,7 @@ export class WebsocketService {
 
 
   initializeWebSocketConnection() {
-    const serverUrl = 'http://localhost:8080/websocket';
+    const serverUrl = 'http://'+ this.apiIp+ ':8080/websocket';
     const ws = new SockJS(serverUrl);
     this.stompClient = Stomp.over(function () {
       return new SockJS(serverUrl);

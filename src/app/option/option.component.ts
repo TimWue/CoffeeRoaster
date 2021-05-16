@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable, Subject, Subscription, interval } from 'rxjs';
-import {WebsocketService} from '../services/websocket.service'
+import { IMqttMessage } from 'ngx-mqtt';
+import { Subscription} from 'rxjs';
+import { SensorMessage } from '../models/sensorMessage';
+import { TempMQTTService } from '../services/temp-mqtt.service';
 
 @Component({
   selector: 'app-option',
@@ -8,25 +10,30 @@ import {WebsocketService} from '../services/websocket.service'
   styleUrls: ['./option.component.css']
 })
 export class OptionComponent implements OnInit {
-  // private socket: Subject<any>;
-  // private counterSubscription: Subscription;
-  //public message: number;
-  // public sentMessage: string;
-  
-  constructor(private websocketService: WebsocketService){
-    // this.socket = websocketService.createWebsocket();
-  }
-  
-  ngOnInit(){
-    /*
-    this.websocketService.msg.subscribe((msg : number) => {
-      console.log(msg);
-      this.message = msg;
-    })
-    */
-   
-  }
+    temp : any
+    subscription: Subscription;
 
-  
+    constructor(
+        private readonly eventMqtt: TempMQTTService,
+    ) {
+    }
+
+    ngOnInit() {
+        this.subscribeToTopic();
+    }
+
+    ngOnDestroy(): void {
+        if (this.subscription) {
+            this.subscription.unsubscribe();
+        }
+    }
+
+    private subscribeToTopic() {
+        this.subscription = this.eventMqtt.topic('tempSensor')
+            .subscribe((data: IMqttMessage) => {
+                let item : SensorMessage= JSON.parse(data.payload.toString());
+                console.log(item)            
+              });
+    }
 
 }
