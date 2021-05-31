@@ -33,7 +33,7 @@ export class MeasurementService {
     this.timestamp = new Date();
     this.data = this.tempService.measures;
     /*
-    let archivItem = new ArchivItem(this.name, 
+    let archivItem = new ArchivItem(this.name,
       this.data, this.rating, this.comments, this.bean, this.timestamp);
     this.archivService.addItem(archivItem)*/
   }

@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { TemperatureService } from '../services/temperature.service';
 import { TimeService } from '../services/time.service';
-import { faArchive, faArrowLeft, faBackward, faBars, faChartLine, faCoffee, faCogs, faHourglassHalf, faPlay, faStop, faThermometerThreeQuarters, faUndo } from '@fortawesome/free-solid-svg-icons';
+import { faArrowLeft, faBackward, faBars, faChartLine, faCoffee, faCogs, faHourglassHalf, faPlay, faStop, faThermometerThreeQuarters, faUndo } from '@fortawesome/free-solid-svg-icons';
 import { EventService } from '../services/event.service';
 import { Subscription } from 'rxjs';
-import { WebsocketService } from '../services/websocket.service';
 import { SensorMessage } from '../models/sensorMessage';
 
 @Component({
@@ -40,66 +39,64 @@ buttonLabel = this.buttonLabels[this.index];
   // Subscription
   tempSubscription : Subscription;
 
-  constructor(private timeService : TimeService, 
+  constructor(private timeService : TimeService,
     private tempService : TemperatureService,
-    private eventService : EventService,
-    private websocketService : WebsocketService) {}
+    private eventService : EventService) {}
 
   ngOnInit(): void {
-    this.tempService.akGradient.subscribe(value => { 
-      this.akGradient = value.toFixed(2);
-      this.gradientsAll.push(value);
-      if (value > this.maxGradient){
-        this.maxGradient = value;
-        this.maxGradientString = this.maxGradient.toFixed(2);
-      }
-      this.midGradient = this.getMean(this.gradientsAll).toFixed(2);
-    })
+
+    // Time Subscription
     this.timeService.getTime().subscribe(value => {
       let date = new Date(0);
       date.setSeconds(value);
       this.time = date.toISOString().substr(11, 8);
     })
 
-    this.tempSubscription = this.websocketService.msg.subscribe((msg : string) => {
-      
-      let message : SensorMessage[] = JSON.parse(msg); 
-      this.temperature = message[0].value.toFixed(2);
+    // Temperature Subscription
+    this.tempSubscription = this.tempService.sensorTempSubject[0].subscribe((msg : SensorMessage) => {
+      this.temperature = msg.value.toFixed(2);
+    })
+
+    // Gradient Subscription
+    this.tempService.sensorGradSubject[0].subscribe(value => {
+      this.akGradient = value.toFixed(2);
+      this.gradientsAll.push(value);
+      value > this.maxGradient ? this.maxGradient = value : this.maxGradientString = this.maxGradient.toFixed(2);
+      this.midGradient = this.getMean(this.gradientsAll).toFixed(2);
     })
 
   }
 
-  getMean(array : number[]){    
+  private getMean(array : number[]){
     const total = array.reduce((acc, c) => acc + c, 0);
     return total / array.length;  }
 
 
-    startTimer(){
-      this.timeService.startTimer();
-    }
-  
-    endTimer(){
-      this.timeService.stopTimer();
-    }
-  
-    resetTimer(){
-      this.timeService.resetTimer();
-      this.tempService.resetTemperature();
-    }
+  startTimer(){
+    this.timeService.startTimer();
+  }
 
-    // Mark
-    markEvent(){
-      if (this.index > 0){
-        this.eventService.emitPhaseAdd();
-      }
-      this.index ++
-      this.buttonLabel = this.buttonLabels[this.index];
-      
+  endTimer(){
+    this.timeService.stopTimer();
+  }
+
+  resetTimer(){
+    this.timeService.resetTimer();
+    this.tempService.resetMeasure();
+  }
+
+  markEvent(){
+    if (this.index > 0){
+      this.eventService.emitPhaseAdd();
     }
-  
-    reverseMarkEvent(){
-      this.index --
-      this.buttonLabel = this.buttonLabels[this.index];
-      this.eventService.emitPhaseDelete();
-    }
+    this.index ++
+    this.buttonLabel = this.buttonLabels[this.index];
+
+  }
+
+  reverseMarkEvent(){
+    this.index --
+    this.buttonLabel = this.buttonLabels[this.index];
+    this.eventService.emitPhaseDelete();
+  }
 }

@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   mqtt: {
-		server: 'mosquitto-broker',
+		server: '192.168.178.73',
 		protocol: "ws",
 		port: 8000
 	}

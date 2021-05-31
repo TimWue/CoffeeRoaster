@@ -34,11 +34,11 @@ export class GraphComponent implements OnInit {
     {borderColor: "yellow"}, //phases
     {borderColor: "grey", backgroundColor:"rgba(0, 0, 0,0)", borderDash: [5,15], borderWidth: 3}, //archivItem
     {borderColor: "green", backgroundColor:"rgba(0, 0, 0,0)",borderWidth: 3},  //sensor2
-    {borderColor: "blue", backgroundColor:"rgba(0, 0, 0,0)",borderWidth: 3},]; //sensor3
+       {borderColor: "blue", backgroundColor:"rgba(0, 0, 0,0)",borderWidth: 3},]; //sensor3
 
   public barChartData: ChartDataSets[];
-  
-  constructor( 
+
+  constructor(
     private tempService : TemperatureService,
     private eventService : EventService,
     private archivService: ArchivService) {
@@ -54,13 +54,13 @@ export class GraphComponent implements OnInit {
           this.dataArray = [];
           this.updateData();
         }
-        
+
         let data = Util.measurement2data(archivItem.data[0].measurements)
         data.forEach((element : Datapoint) => {
           this.dataArray.push({x: element.x, y: element.y})
         });
       })
-     
+
     this.tempService.statusUpdate.subscribe(status => {
       if (status === "reset"){
         this.sensor1 = [];
@@ -71,17 +71,21 @@ export class GraphComponent implements OnInit {
       }
     })
 
-    this.tempService.measurement.subscribe((sensorMessage : SensorMessage) => {
-      if (sensorMessage.sensorName === "sensor1"){
+    this.tempService.sensorTempSubject[0].subscribe((sensorMessage : SensorMessage) => {
         this.sensor1.push({x : sensorMessage.time, y : sensorMessage.value})
-      } else if (sensorMessage.sensorName === "sensor2"){
-        this.sensor2.push({x : sensorMessage.time, y : sensorMessage.value})
-      } else if (sensorMessage.sensorName === "sensor3"){
-        this.sensor3.push({x : sensorMessage.time, y : sensorMessage.value})
-      }
-      this.updateTicks(sensorMessage.time);
-
+        this.updateTicks(sensorMessage.time);
     })
+
+    this.tempService.sensorTempSubject[1].subscribe((sensorMessage : SensorMessage) => {
+      this.sensor2.push({x : sensorMessage.time, y : sensorMessage.value})
+      this.updateTicks(sensorMessage.time);
+    })
+
+    this.tempService.sensorTempSubject[2].subscribe((sensorMessage : SensorMessage) => {
+      this.sensor3.push({x : sensorMessage.time, y : sensorMessage.value})
+      this.updateTicks(sensorMessage.time);
+    })
+
 
 
      this.eventService.graphEvent.subscribe(value => {
@@ -97,7 +101,7 @@ export class GraphComponent implements OnInit {
   updateTicks(time : number){
     if (time > this.maxXTick){
       this.maxXTick += this.tickShift;
-      this.updateOptions();  
+      this.updateOptions();
     }
   }
 
